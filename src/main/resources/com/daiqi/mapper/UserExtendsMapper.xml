@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.UserExtendsMapper" >
+    <resultMap id="BaseResultMap" type="com.daiqi.extend.UserExtends" >
+        <id column="userId" property="userid" jdbcType="INTEGER" />
+        <result column="nickName" property="nickname" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="userImage" property="userimage" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" jdbcType="CHAR" />
+        <result column="school" property="school" jdbcType="INTEGER" />
+        <result column="grade" property="grade" jdbcType="INTEGER" />
+        <result column="professional" property="professional" jdbcType="INTEGER" />
+        <result column="experience" property="experience" jdbcType="INTEGER" />
+        <result column="majorSkill" property="majorskill" jdbcType="INTEGER" />
+        <result column="majorSkillProficiency" property="majorskillproficiency" jdbcType="INTEGER" />
+        <result column="minorSkill" property="minorskill" jdbcType="INTEGER" />
+        <result column="minorSkillProficiency" property="minorskillproficiency" jdbcType="INTEGER" />
+        <result column="phoneNumber" property="phonenumber" jdbcType="CHAR" />
+        <result column="qqNumber" property="qqnumber" jdbcType="VARCHAR" />
+        <result column="registerTime" property="registertime" jdbcType="DATE" />
+        <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+
+        <association property="userSchool" column="school" javaType="School"
+                     select="com.daiqi.mapper.SchoolMapper.selectByPrimaryKey">
+        </association>
+        <association property="userGrade" column="grade" javaType="Skill"
+                     select="com.daiqi.mapper.GradeMapper.selectByPrimaryKey">
+        </association>
+        <association property="userProfessional" column="professional" javaType="Professional"
+                     select="com.daiqi.mapper.ProfessionalMapper.selectByPrimaryKey">
+        </association>
+        <association property="skillMajor" column="majorSkill" javaType="Skill"
+                     select="com.daiqi.mapper.SkillMapper.selectByPrimaryKey">
+        </association>
+        <association property="skillproficiencyMajor" column="majorSkillProficiency" javaType="Proficiency"
+                     select="com.daiqi.mapper.ProficiencyMapper.selectByPrimaryKey">
+        </association>
+        <association property="skillMinor" column="minorSkill" javaType="Skill"
+                     select="com.daiqi.mapper.SkillMapper.selectByPrimaryKey">
+        </association>
+        <association property="skillproficiencyMinor" column="minorSkillProficiency" javaType="Proficiency"
+                     select="com.daiqi.mapper.ProficiencyMapper.selectByPrimaryKey">
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        userId, nickName, email, password, userImage, gender, school, grade, professional,
+        experience, majorSkill, majorSkillProficiency, minorSkill, minorSkillProficiency,
+        phoneNumber, qqNumber, registerTime, introduction, status
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_user
+        where userId = #{userid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectNew" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_user
+        where status="正常"
+        order by registertime desc
+        limit 0,8
+    </select>
+
+    <select id="selectByExample" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_user
+        <where>
+            <if test="nickname!=null and nickname!=''">
+                and nickName=#{nickname}
+            </if>
+            <if test="gender!=null and gender!=''">
+                and gender=#{gender}
+            </if>
+            <if test="school!=null and school!=''">
+                and school=#{school}
+            </if>
+            <if test="skill!=null and skill!=''">
+                and (majorSkill=#{skill} or minorSkill=#{skill})
+            </if>
+            <if test="status!=null and status!=''">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+</mapper>

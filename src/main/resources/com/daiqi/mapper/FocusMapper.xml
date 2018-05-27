@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.FocusMapper" >
+  <resultMap id="BaseResultMap" type="com.daiqi.entity.Focus" >
+    <id column="focusId" property="focusid" jdbcType="INTEGER" />
+    <result column="focuser" property="focuser" jdbcType="INTEGER" />
+    <result column="beFocuser" property="befocuser" jdbcType="INTEGER" />
+    <result column="focusTime" property="focustime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    focusId, focuser, beFocuser, focusTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.daiqi.entity.FocusExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_focus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_focus
+    where focusId = #{focusid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_focus
+    where focusId = #{focusid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.daiqi.entity.FocusExample" >
+    delete from t_focus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.daiqi.entity.Focus" >
+    insert into t_focus (focusId, focuser, beFocuser, 
+      focusTime)
+    values (#{focusid,jdbcType=INTEGER}, #{focuser,jdbcType=INTEGER}, #{befocuser,jdbcType=INTEGER}, 
+      #{focustime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.daiqi.entity.Focus" >
+    insert into t_focus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="focusid != null" >
+        focusId,
+      </if>
+      <if test="focuser != null" >
+        focuser,
+      </if>
+      <if test="befocuser != null" >
+        beFocuser,
+      </if>
+      <if test="focustime != null" >
+        focusTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="focusid != null" >
+        #{focusid,jdbcType=INTEGER},
+      </if>
+      <if test="focuser != null" >
+        #{focuser,jdbcType=INTEGER},
+      </if>
+      <if test="befocuser != null" >
+        #{befocuser,jdbcType=INTEGER},
+      </if>
+      <if test="focustime != null" >
+        #{focustime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.daiqi.entity.FocusExample" resultType="java.lang.Integer" >
+    select count(*) from t_focus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_focus
+    <set >
+      <if test="record.focusid != null" >
+        focusId = #{record.focusid,jdbcType=INTEGER},
+      </if>
+      <if test="record.focuser != null" >
+        focuser = #{record.focuser,jdbcType=INTEGER},
+      </if>
+      <if test="record.befocuser != null" >
+        beFocuser = #{record.befocuser,jdbcType=INTEGER},
+      </if>
+      <if test="record.focustime != null" >
+        focusTime = #{record.focustime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_focus
+    set focusId = #{record.focusid,jdbcType=INTEGER},
+      focuser = #{record.focuser,jdbcType=INTEGER},
+      beFocuser = #{record.befocuser,jdbcType=INTEGER},
+      focusTime = #{record.focustime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.daiqi.entity.Focus" >
+    update t_focus
+    <set >
+      <if test="focuser != null" >
+        focuser = #{focuser,jdbcType=INTEGER},
+      </if>
+      <if test="befocuser != null" >
+        beFocuser = #{befocuser,jdbcType=INTEGER},
+      </if>
+      <if test="focustime != null" >
+        focusTime = #{focustime,jdbcType=DATE},
+      </if>
+    </set>
+    where focusId = #{focusid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.daiqi.entity.Focus" >
+    update t_focus
+    set focuser = #{focuser,jdbcType=INTEGER},
+      beFocuser = #{befocuser,jdbcType=INTEGER},
+      focusTime = #{focustime,jdbcType=DATE}
+    where focusId = #{focusid,jdbcType=INTEGER}
+  </update>
+</mapper>

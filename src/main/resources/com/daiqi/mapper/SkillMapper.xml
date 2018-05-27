@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.SkillMapper" >
+  <resultMap id="BaseResultMap" type="com.daiqi.entity.Skill" >
+    <id column="skillId" property="skillid" jdbcType="INTEGER" />
+    <result column="skillName" property="skillname" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    skillId, skillName, introduction
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.daiqi.entity.SkillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_skill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_skill
+    where skillId = #{skillid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_skill
+    where skillId = #{skillid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.daiqi.entity.SkillExample" >
+    delete from t_skill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.daiqi.entity.Skill" >
+    insert into t_skill (skillId, skillName, introduction
+      )
+    values (#{skillid,jdbcType=INTEGER}, #{skillname,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.daiqi.entity.Skill" >
+    insert into t_skill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="skillid != null" >
+        skillId,
+      </if>
+      <if test="skillname != null" >
+        skillName,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="skillid != null" >
+        #{skillid,jdbcType=INTEGER},
+      </if>
+      <if test="skillname != null" >
+        #{skillname,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.daiqi.entity.SkillExample" resultType="java.lang.Integer" >
+    select count(*) from t_skill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_skill
+    <set >
+      <if test="record.skillid != null" >
+        skillId = #{record.skillid,jdbcType=INTEGER},
+      </if>
+      <if test="record.skillname != null" >
+        skillName = #{record.skillname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_skill
+    set skillId = #{record.skillid,jdbcType=INTEGER},
+      skillName = #{record.skillname,jdbcType=VARCHAR},
+      introduction = #{record.introduction,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.daiqi.entity.Skill" >
+    update t_skill
+    <set >
+      <if test="skillname != null" >
+        skillName = #{skillname,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where skillId = #{skillid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.daiqi.entity.Skill" >
+    update t_skill
+    set skillName = #{skillname,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR}
+    where skillId = #{skillid,jdbcType=INTEGER}
+  </update>
+</mapper>

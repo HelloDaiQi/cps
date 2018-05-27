@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.ApplicationProjectExtendsMapper" >
+    <resultMap id="BaseResultMap" type="com.daiqi.extend.ApplicationProjectExtends" >
+        <id column="aprojectId" property="aprojectid" jdbcType="INTEGER" />
+        <result column="projectId" property="projectid" jdbcType="INTEGER" />
+        <result column="applicant" property="applicant" jdbcType="INTEGER" />
+        <result column="reason" property="reason" jdbcType="VARCHAR" />
+        <result column="applicationTime" property="applicationtime" jdbcType="DATE" />
+        <result column="result" property="result" jdbcType="VARCHAR" />
+
+        <association property="userExtends" column="applicant" javaType="UserExtends"
+                    select="com.daiqi.mapper.UserExtendsMapper.selectByPrimaryKey">
+        </association>
+        <association property="project" column="projectId" javaType="Project"
+                    select="com.daiqi.mapper.ProjectMapper.selectByPrimaryKey">
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        aprojectId, projectId, applicant, reason, applicationTime, result
+    </sql>
+
+    <select id="selectByExample" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_applicationproject
+        <where>
+            <if test="applicant!=null">
+                and applicant = #{applicant,jdbcType=INTEGER}
+            </if>
+            <if test="projectid!=null">
+                and projectId = #{projectid,jdbcType=INTEGER}
+            </if>
+            <if test="result!=null">
+                and result = #{result,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

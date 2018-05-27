@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.ProjectExtendsMapper" >
+    <resultMap id="BaseResultMap" type="com.daiqi.extend.ProjectExtends" >
+        <id column="projectId" property="projectid" jdbcType="INTEGER" />
+        <result column="releaser" property="releaser" jdbcType="INTEGER" />
+        <result column="projectName" property="projectname" jdbcType="VARCHAR" />
+        <result column="projectImage" property="projectimage" jdbcType="VARCHAR" />
+        <result column="projectType" property="projecttype" jdbcType="INTEGER" />
+        <result column="demand" property="demand" jdbcType="VARCHAR" />
+        <result column="numbers" property="numbers" jdbcType="INTEGER" />
+        <result column="progress" property="progress" jdbcType="INTEGER" />
+        <result column="releaseTime" property="releasetime" jdbcType="DATE" />
+        <result column="stopTime" property="stoptime" jdbcType="DATE" />
+        <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+
+        <association property="userExtends" column="releaser" javaType="UserExtends"
+                     select="com.daiqi.mapper.UserExtendsMapper.selectByPrimaryKey">
+        </association>
+        <association property="type" column="projectType" javaType="ProjectType"
+                     select="com.daiqi.mapper.ProjectTypeMapper.selectByPrimaryKey">
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        projectId, releaser, projectName, projectImage, projectType, demand, numbers, progress,
+        releaseTime, stopTime, introduction, status
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_project
+        where projectId = #{projectid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectNew" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_project
+        where status="正常"
+        order by releasetime desc
+        limit 0,8
+    </select>
+
+    <select id="selectByExample" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_project
+        <where>
+            <if test="releaser!=null and releaser!=''">
+                and releaser = #{releaser,jdbcType=INTEGER}
+            </if>
+            <if test="projecttype!=null and projecttype!=''">
+                and projecttype = #{projecttype,jdbcType=INTEGER}
+            </if>
+            <if test="projectname!=null and projectname!=''">
+                and projectname LIKE CONCAT(CONCAT('%', #{projectname,jdbcType=VARCHAR}), '%')
+            </if>
+            <if test="status!=null and status!=''">
+                and status = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="progress!=null and progress!=''">
+                and progress = #{progress,jdbcType=INTEGER}
+            </if>
+            <if test="notProgress !=null and notProgress!=''">
+                and progress != 100
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByExample2" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_project
+        <where>
+            <if test="releaser!=null and releaser!=''">
+                and releaser = #{releaser,jdbcType=INTEGER}
+            </if>
+            <if test="projecttype!=null and projecttype!=''">
+                and projecttype = #{projecttype,jdbcType=INTEGER}
+            </if>
+            <if test="projectname!=null and projectname!=''">
+                and projectname LIKE CONCAT(CONCAT('%', #{projectname,jdbcType=VARCHAR}), '%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

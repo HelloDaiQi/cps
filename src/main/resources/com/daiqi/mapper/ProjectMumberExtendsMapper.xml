@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.ProjectMumberExtendsMapper" >
+    <resultMap id="BaseResultMap" type="com.daiqi.extend.ProjectMumberExtends" >
+        <id column="projectMumberId" property="projectmumberid" jdbcType="INTEGER" />
+        <result column="projectId" property="projectid" jdbcType="INTEGER" />
+        <result column="userId" property="userid" jdbcType="INTEGER" />
+
+        <association property="projectExtends" column="projectId" javaType="ProjectExtends"
+                     select="com.daiqi.mapper.ProjectExtendsMapper.selectByPrimaryKey">
+        </association>
+        <association property="userExtends" column="userId" javaType="UserExtends"
+                     select="com.daiqi.mapper.UserExtendsMapper.selectByPrimaryKey">
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        projectMumberId, projectId, userId
+    </sql>
+
+    <select id="selectByExample" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_projectmumber
+        <where>
+            <if test="projectid !=null">
+                and projectId = #{projectid,jdbcType=INTEGER}
+            </if>
+            <if test="userid !=null">
+                and userId = #{userid,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+</mapper>

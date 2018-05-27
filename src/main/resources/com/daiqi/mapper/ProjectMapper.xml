@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.daiqi.entity.Project" >
+    <id column="projectId" property="projectid" jdbcType="INTEGER" />
+    <result column="releaser" property="releaser" jdbcType="INTEGER" />
+    <result column="projectName" property="projectname" jdbcType="VARCHAR" />
+    <result column="projectImage" property="projectimage" jdbcType="VARCHAR" />
+    <result column="projectType" property="projecttype" jdbcType="INTEGER" />
+    <result column="demand" property="demand" jdbcType="VARCHAR" />
+    <result column="numbers" property="numbers" jdbcType="INTEGER" />
+    <result column="progress" property="progress" jdbcType="INTEGER" />
+    <result column="releaseTime" property="releasetime" jdbcType="DATE" />
+    <result column="stopTime" property="stoptime" jdbcType="DATE" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    projectId, releaser, projectName, projectImage, projectType, demand, numbers, progress, 
+    releaseTime, stopTime, introduction, status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.daiqi.entity.ProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_project
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_project
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.daiqi.entity.ProjectExample" >
+    delete from t_project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.daiqi.entity.Project" >
+    insert into t_project (projectId, releaser, projectName, 
+      projectImage, projectType, demand, 
+      numbers, progress, releaseTime, stopTime,
+      introduction, status)
+    values (#{projectid,jdbcType=INTEGER}, #{releaser,jdbcType=INTEGER}, #{projectname,jdbcType=VARCHAR}, 
+      #{projectimage,jdbcType=VARCHAR}, #{projecttype,jdbcType=INTEGER}, #{demand,jdbcType=VARCHAR}, 
+      #{numbers,jdbcType=INTEGER}, #{progress,jdbcType=INTEGER}, #{releasetime,jdbcType=DATE}, #{stopTime,jdbcType=DATE}
+      #{introduction,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.daiqi.entity.Project" >
+    insert into t_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectid != null" >
+        projectId,
+      </if>
+      <if test="releaser != null" >
+        releaser,
+      </if>
+      <if test="projectname != null" >
+        projectName,
+      </if>
+      <if test="projectimage != null" >
+        projectImage,
+      </if>
+      <if test="projecttype != null" >
+        projectType,
+      </if>
+      <if test="demand != null" >
+        demand,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+      <if test="progress != null" >
+        progress,
+      </if>
+      <if test="releasetime != null" >
+        releaseTime,
+      </if>
+      <if test="stoptime != null" >
+        stopTime,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectid != null" >
+        #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="releaser != null" >
+        #{releaser,jdbcType=INTEGER},
+      </if>
+      <if test="projectname != null" >
+        #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimage != null" >
+        #{projectimage,jdbcType=VARCHAR},
+      </if>
+      <if test="projecttype != null" >
+        #{projecttype,jdbcType=INTEGER},
+      </if>
+      <if test="demand != null" >
+        #{demand,jdbcType=VARCHAR},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="progress != null" >
+        #{progress,jdbcType=INTEGER},
+      </if>
+      <if test="releasetime != null" >
+        #{releasetime,jdbcType=DATE},
+      </if>
+      <if test="stoptime != null" >
+        #{stoptime,jdbcType=DATE},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.daiqi.entity.ProjectExample" resultType="java.lang.Integer" >
+    select count(*) from t_project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_project
+    <set >
+      <if test="record.projectid != null" >
+        projectId = #{record.projectid,jdbcType=INTEGER},
+      </if>
+      <if test="record.releaser != null" >
+        releaser = #{record.releaser,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectname != null" >
+        projectName = #{record.projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectimage != null" >
+        projectImage = #{record.projectimage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projecttype != null" >
+        projectType = #{record.projecttype,jdbcType=INTEGER},
+      </if>
+      <if test="record.demand != null" >
+        demand = #{record.demand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numbers != null" >
+        numbers = #{record.numbers,jdbcType=INTEGER},
+      </if>
+      <if test="record.progress != null" >
+        progress = #{record.progress,jdbcType=INTEGER},
+      </if>
+      <if test="record.releasetime != null" >
+        releaseTime = #{record.releasetime,jdbcType=DATE},
+      </if>
+      <if test="record.stoptime != null" >
+        stoptime = #{record.stoptime,jdbcType=DATE},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_project
+    set projectId = #{record.projectid,jdbcType=INTEGER},
+      releaser = #{record.releaser,jdbcType=INTEGER},
+      projectName = #{record.projectname,jdbcType=VARCHAR},
+      projectImage = #{record.projectimage,jdbcType=VARCHAR},
+      projectType = #{record.projecttype,jdbcType=INTEGER},
+      demand = #{record.demand,jdbcType=VARCHAR},
+      numbers = #{record.numbers,jdbcType=INTEGER},
+      progress = #{record.progress,jdbcType=INTEGER},
+      releaseTime = #{record.releasetime,jdbcType=DATE},
+      stopTime = #{record.stoptime,jdbcType=DATE},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.daiqi.entity.Project" >
+    update t_project
+    <set >
+      <if test="releaser != null" >
+        releaser = #{releaser,jdbcType=INTEGER},
+      </if>
+      <if test="projectname != null" >
+        projectName = #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="projectimage != null" >
+        projectImage = #{projectimage,jdbcType=VARCHAR},
+      </if>
+      <if test="projecttype != null" >
+        projectType = #{projecttype,jdbcType=INTEGER},
+      </if>
+      <if test="demand != null" >
+        demand = #{demand,jdbcType=VARCHAR},
+      </if>
+      <if test="numbers != null" >
+        numbers = #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="progress != null" >
+        progress = #{progress,jdbcType=INTEGER},
+      </if>
+      <if test="releasetime != null" >
+        releaseTime = #{releasetime,jdbcType=DATE},
+      </if>
+      <if test="stoptime != null" >
+        stopTime = #{stoptime,jdbcType=DATE},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.daiqi.entity.Project" >
+    update t_project
+    set releaser = #{releaser,jdbcType=INTEGER},
+      projectName = #{projectname,jdbcType=VARCHAR},
+      projectImage = #{projectimage,jdbcType=VARCHAR},
+      projectType = #{projecttype,jdbcType=INTEGER},
+      demand = #{demand,jdbcType=VARCHAR},
+      numbers = #{numbers,jdbcType=INTEGER},
+      progress = #{progress,jdbcType=INTEGER},
+      releaseTime = #{releasetime,jdbcType=DATE},
+      stopTime = #{stoptime,jdbcType=DATE},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where projectId = #{projectid,jdbcType=INTEGER}
+  </update>
+</mapper>

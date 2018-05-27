@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.daiqi.entity.User" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="nickName" property="nickname" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="userImage" property="userimage" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="CHAR" />
+    <result column="school" property="school" jdbcType="INTEGER" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="professional" property="professional" jdbcType="INTEGER" />
+    <result column="experience" property="experience" jdbcType="INTEGER" />
+    <result column="majorSkill" property="majorskill" jdbcType="INTEGER" />
+    <result column="majorSkillProficiency" property="majorskillproficiency" jdbcType="INTEGER" />
+    <result column="minorSkill" property="minorskill" jdbcType="INTEGER" />
+    <result column="minorSkillProficiency" property="minorskillproficiency" jdbcType="INTEGER" />
+    <result column="phoneNumber" property="phonenumber" jdbcType="CHAR" />
+    <result column="qqNumber" property="qqnumber" jdbcType="VARCHAR" />
+    <result column="registerTime" property="registertime" jdbcType="DATE" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    userId, nickName, email, password, userImage, gender, school, grade, professional, 
+    experience, majorSkill, majorSkillProficiency, minorSkill, minorSkillProficiency, 
+    phoneNumber, qqNumber, registerTime, introduction, status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.daiqi.entity.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.daiqi.entity.UserExample" >
+    delete from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.daiqi.entity.User" >
+    insert into t_user (userId, nickName, email, 
+      password, userImage, gender, 
+      school, grade, professional, 
+      experience, majorSkill, majorSkillProficiency, 
+      minorSkill, minorSkillProficiency, phoneNumber, 
+      qqNumber, registerTime, introduction, 
+      status)
+    values (#{userid,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{userimage,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, 
+      #{school,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{professional,jdbcType=INTEGER}, 
+      #{experience,jdbcType=INTEGER}, #{majorskill,jdbcType=INTEGER}, #{majorskillproficiency,jdbcType=INTEGER}, 
+      #{minorskill,jdbcType=INTEGER}, #{minorskillproficiency,jdbcType=INTEGER}, #{phonenumber,jdbcType=CHAR}, 
+      #{qqnumber,jdbcType=VARCHAR}, #{registertime,jdbcType=DATE}, #{introduction,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.daiqi.entity.User" keyProperty="userid" useGeneratedKeys="true" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="nickname != null" >
+        nickName,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="userimage != null" >
+        userImage,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="professional != null" >
+        professional,
+      </if>
+      <if test="experience != null" >
+        experience,
+      </if>
+      <if test="majorskill != null" >
+        majorSkill,
+      </if>
+      <if test="majorskillproficiency != null" >
+        majorSkillProficiency,
+      </if>
+      <if test="minorskill != null" >
+        minorSkill,
+      </if>
+      <if test="minorskillproficiency != null" >
+        minorSkillProficiency,
+      </if>
+      <if test="phonenumber != null" >
+        phoneNumber,
+      </if>
+      <if test="qqnumber != null" >
+        qqNumber,
+      </if>
+      <if test="registertime != null" >
+        registerTime,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userimage != null" >
+        #{userimage,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="professional != null" >
+        #{professional,jdbcType=INTEGER},
+      </if>
+      <if test="experience != null" >
+        #{experience,jdbcType=INTEGER},
+      </if>
+      <if test="majorskill != null" >
+        #{majorskill,jdbcType=INTEGER},
+      </if>
+      <if test="majorskillproficiency != null" >
+        #{majorskillproficiency,jdbcType=INTEGER},
+      </if>
+      <if test="minorskill != null" >
+        #{minorskill,jdbcType=INTEGER},
+      </if>
+      <if test="minorskillproficiency != null" >
+        #{minorskillproficiency,jdbcType=INTEGER},
+      </if>
+      <if test="phonenumber != null" >
+        #{phonenumber,jdbcType=CHAR},
+      </if>
+      <if test="qqnumber != null" >
+        #{qqnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registertime != null" >
+        #{registertime,jdbcType=DATE},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.daiqi.entity.UserExample" resultType="java.lang.Integer" >
+    select count(*) from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_user
+    <set >
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickname != null" >
+        nickName = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userimage != null" >
+        userImage = #{record.userimage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=CHAR},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=INTEGER},
+      </if>
+      <if test="record.grade != null" >
+        grade = #{record.grade,jdbcType=INTEGER},
+      </if>
+      <if test="record.professional != null" >
+        professional = #{record.professional,jdbcType=INTEGER},
+      </if>
+      <if test="record.experience != null" >
+        experience = #{record.experience,jdbcType=INTEGER},
+      </if>
+      <if test="record.majorskill != null" >
+        majorSkill = #{record.majorskill,jdbcType=INTEGER},
+      </if>
+      <if test="record.majorskillproficiency != null" >
+        majorSkillProficiency = #{record.majorskillproficiency,jdbcType=INTEGER},
+      </if>
+      <if test="record.minorskill != null" >
+        minorSkill = #{record.minorskill,jdbcType=INTEGER},
+      </if>
+      <if test="record.minorskillproficiency != null" >
+        minorSkillProficiency = #{record.minorskillproficiency,jdbcType=INTEGER},
+      </if>
+      <if test="record.phonenumber != null" >
+        phoneNumber = #{record.phonenumber,jdbcType=CHAR},
+      </if>
+      <if test="record.qqnumber != null" >
+        qqNumber = #{record.qqnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registertime != null" >
+        registerTime = #{record.registertime,jdbcType=DATE},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_user
+    set userId = #{record.userid,jdbcType=INTEGER},
+      nickName = #{record.nickname,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      userImage = #{record.userimage,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=CHAR},
+      school = #{record.school,jdbcType=INTEGER},
+      grade = #{record.grade,jdbcType=INTEGER},
+      professional = #{record.professional,jdbcType=INTEGER},
+      experience = #{record.experience,jdbcType=INTEGER},
+      majorSkill = #{record.majorskill,jdbcType=INTEGER},
+      majorSkillProficiency = #{record.majorskillproficiency,jdbcType=INTEGER},
+      minorSkill = #{record.minorskill,jdbcType=INTEGER},
+      minorSkillProficiency = #{record.minorskillproficiency,jdbcType=INTEGER},
+      phoneNumber = #{record.phonenumber,jdbcType=CHAR},
+      qqNumber = #{record.qqnumber,jdbcType=VARCHAR},
+      registerTime = #{record.registertime,jdbcType=DATE},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.daiqi.entity.User" >
+    update t_user
+    <set >
+      <if test="nickname != null" >
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userimage != null" >
+        userImage = #{userimage,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="professional != null" >
+        professional = #{professional,jdbcType=INTEGER},
+      </if>
+      <if test="experience != null" >
+        experience = #{experience,jdbcType=INTEGER},
+      </if>
+      <if test="majorskill != null" >
+        majorSkill = #{majorskill,jdbcType=INTEGER},
+      </if>
+      <if test="majorskillproficiency != null" >
+        majorSkillProficiency = #{majorskillproficiency,jdbcType=INTEGER},
+      </if>
+      <if test="minorskill != null" >
+        minorSkill = #{minorskill,jdbcType=INTEGER},
+      </if>
+      <if test="minorskillproficiency != null" >
+        minorSkillProficiency = #{minorskillproficiency,jdbcType=INTEGER},
+      </if>
+      <if test="phonenumber != null" >
+        phoneNumber = #{phonenumber,jdbcType=CHAR},
+      </if>
+      <if test="qqnumber != null" >
+        qqNumber = #{qqnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registertime != null" >
+        registerTime = #{registertime,jdbcType=DATE},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.daiqi.entity.User" >
+    update t_user
+    set nickName = #{nickname,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      userImage = #{userimage,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      school = #{school,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=INTEGER},
+      professional = #{professional,jdbcType=INTEGER},
+      experience = #{experience,jdbcType=INTEGER},
+      majorSkill = #{majorskill,jdbcType=INTEGER},
+      majorSkillProficiency = #{majorskillproficiency,jdbcType=INTEGER},
+      minorSkill = #{minorskill,jdbcType=INTEGER},
+      minorSkillProficiency = #{minorskillproficiency,jdbcType=INTEGER},
+      phoneNumber = #{phonenumber,jdbcType=CHAR},
+      qqNumber = #{qqnumber,jdbcType=VARCHAR},
+      registerTime = #{registertime,jdbcType=DATE},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>

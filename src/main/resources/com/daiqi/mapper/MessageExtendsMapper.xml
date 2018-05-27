@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.MessageExtendsMapper" >
+    <resultMap id="BaseResultMap" type="com.daiqi.extend.MessageExtends"
+               extends="com.daiqi.mapper.MessageMapper.BaseResultMap" >
+        <association property="messageSender" column="sender" javaType="User"
+                     select="com.daiqi.mapper.UserMapper.selectByPrimaryKey">
+        </association>
+        <association property="messageReceiver" column="receiver" javaType="User"
+                     select="com.daiqi.mapper.UserMapper.selectByPrimaryKey">
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        messageId, sender, receiver, content, sendTime, status
+    </sql>
+    <select id="selectBySender" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_message
+        where sender=#{userid,jdbcType=INTEGER}
+        order by messageId desc
+    </select>
+
+    <select id="selectByReceiver" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_message
+        where receiver=#{userid,jdbcType=INTEGER}
+        order by messageId desc
+    </select>
+</mapper>

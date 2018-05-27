@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daiqi.mapper.ApplicationProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.daiqi.entity.ApplicationProject" >
+    <id column="aprojectId" property="aprojectid" jdbcType="INTEGER" />
+    <result column="projectId" property="projectid" jdbcType="INTEGER" />
+    <result column="applicant" property="applicant" jdbcType="INTEGER" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="applicationTime" property="applicationtime" jdbcType="DATE" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    aprojectId, projectId, applicant, reason, applicationTime, result
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.daiqi.entity.ApplicationProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_applicationproject
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_applicationproject
+    where aprojectId = #{aprojectid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_applicationproject
+    where aprojectId = #{aprojectid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.daiqi.entity.ApplicationProjectExample" >
+    delete from t_applicationproject
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.daiqi.entity.ApplicationProject" >
+    insert into t_applicationproject (aprojectId, projectId, applicant, 
+      reason, applicationTime, result
+      )
+    values (#{aprojectid,jdbcType=INTEGER}, #{projectid,jdbcType=INTEGER}, #{applicant,jdbcType=INTEGER}, 
+      #{reason,jdbcType=VARCHAR}, #{applicationtime,jdbcType=DATE}, #{result,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.daiqi.entity.ApplicationProject" >
+    insert into t_applicationproject
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="aprojectid != null" >
+        aprojectId,
+      </if>
+      <if test="projectid != null" >
+        projectId,
+      </if>
+      <if test="applicant != null" >
+        applicant,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="applicationtime != null" >
+        applicationTime,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="aprojectid != null" >
+        #{aprojectid,jdbcType=INTEGER},
+      </if>
+      <if test="projectid != null" >
+        #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="applicant != null" >
+        #{applicant,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationtime != null" >
+        #{applicationtime,jdbcType=DATE},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.daiqi.entity.ApplicationProjectExample" resultType="java.lang.Integer" >
+    select count(*) from t_applicationproject
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_applicationproject
+    <set >
+      <if test="record.aprojectid != null" >
+        aprojectId = #{record.aprojectid,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectid != null" >
+        projectId = #{record.projectid,jdbcType=INTEGER},
+      </if>
+      <if test="record.applicant != null" >
+        applicant = #{record.applicant,jdbcType=INTEGER},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicationtime != null" >
+        applicationTime = #{record.applicationtime,jdbcType=DATE},
+      </if>
+      <if test="record.result != null" >
+        result = #{record.result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_applicationproject
+    set aprojectId = #{record.aprojectid,jdbcType=INTEGER},
+      projectId = #{record.projectid,jdbcType=INTEGER},
+      applicant = #{record.applicant,jdbcType=INTEGER},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      applicationTime = #{record.applicationtime,jdbcType=DATE},
+      result = #{record.result,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.daiqi.entity.ApplicationProject" >
+    update t_applicationproject
+    <set >
+      <if test="projectid != null" >
+        projectId = #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="applicant != null" >
+        applicant = #{applicant,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationtime != null" >
+        applicationTime = #{applicationtime,jdbcType=DATE},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where aprojectId = #{aprojectid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.daiqi.entity.ApplicationProject" >
+    update t_applicationproject
+    set projectId = #{projectid,jdbcType=INTEGER},
+      applicant = #{applicant,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=VARCHAR},
+      applicationTime = #{applicationtime,jdbcType=DATE},
+      result = #{result,jdbcType=VARCHAR}
+    where aprojectId = #{aprojectid,jdbcType=INTEGER}
+  </update>
+</mapper>

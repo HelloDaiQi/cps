@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="cps:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="cps.war">
+      <element id="artifact" artifact-name="cps:war exploded" />
+    </root>
+  </artifact>
+</component>
